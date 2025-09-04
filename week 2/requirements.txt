@@ -1,0 +1,14 @@
+# Core dependencies
+pandas
+numpy
+matplotlib
+seaborn
+scikit-learn
+
+# For time-series forecasting (Week 3+)
+statsmodels
+pmdarima
+
+# For visualization dashboards (optional, Week 3+)
+plotly
+streamlit
