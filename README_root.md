@@ -3,6 +3,13 @@
 An end-to-end data science project to **forecast air quality (AQI)** and **identify safe outdoor hours** using real-world data from Mumbai.  
 This is the **final consolidated version** containing all steps (Week 1 + Week 2 + Week 3) in one notebook.  
 
+## Live Demo
+
+Try the Clean-Air Companion app online:
+
+https://cleanaircompanion-ebkheshtnnqxdpgranvmzl.streamlit.app
+
+
 ## 📌 Project Overview  
 Urban air pollution impacts millions of people daily.  
 Citizens lack real-time, easy-to-use tools to decide when it's safe to go outdoors.  
