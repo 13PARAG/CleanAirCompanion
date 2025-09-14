@@ -1,17 +1,34 @@
 
-import streamlit as st, pandas as pd, joblib, os
+import streamlit as st
+import pandas as pd
+import joblib
+import os
+import gdown
+
+MODEL_PATH = "model_artifact.pkl"
+MODEL_DRIVE_ID = "1zwjmAoeneR5yCchbnrGfRTaCQ-JTCJ84"  # <-- REPLACE THIS!
+
+def download_model():
+    if not os.path.exists(MODEL_PATH):
+        with st.spinner("Downloading model from Google Drive..."):
+            url = f"https://drive.google.com/uc?id={MODEL_DRIVE_ID}"
+            try:
+                gdown.download(url, MODEL_PATH, quiet=False)
+                st.success("Model downloaded successfully!")
+            except Exception as e:
+                st.error(f"Failed to download model: {e}")
+                st.stop()
+
+# Download the model if not present
+download_model()
 
 @st.cache_resource
 def load_artifact():
-    data = joblib.load("model_artifact.pkl")
+    data = joblib.load(MODEL_PATH)
     return data["model"], data["meta"]
 
 st.title("🌤️ Clean-Air Companion")
 st.write("Upload a CSV with engineered AQI features (use provided template).")
-
-if not os.path.exists("model_artifact.pkl"):
-    st.error("model_artifact.pkl not found. Please run Week 3 notebook.")
-    st.stop()
 
 model, meta = load_artifact()
 expected_features = meta["feature_names"]
@@ -22,7 +39,8 @@ if uploaded:
     try:
         new_df = pd.read_csv(uploaded)
         for col in ["AQI", "AQI_category", "Datetime", "is_safe_hour"]:
-            if col in new_df.columns: new_df.drop(columns=col, inplace=True)
+            if col in new_df.columns:
+                new_df.drop(columns=col, inplace=True)
 
         missing = [c for c in expected_features if c not in new_df.columns]
         for c in missing:
@@ -42,3 +60,4 @@ if uploaded:
 
     except Exception as e:
         st.error(f"Prediction failed: {e}")
+
